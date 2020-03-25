@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/remove.io/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/remove.io/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/remove.io/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://cdn.jsdelivr.net/gh/removeif/removeif.github.io@master/img/wico.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="https://cdn.jsdelivr.net/gh/removeif/removeif.github.io@master/img/wico.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="https://cdn.jsdelivr.net/gh/removeif/removeif.github.io@master/img/wico.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="https://cdn.jsdelivr.net/gh/removeif/removeif.github.io@master/img/wico.png?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="java">
+
+
+
+
+
+  <link rel="alternate" href="/remove.io/atom.xml" title="辣椒の酱" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="摘要Elasticsearch 是一个高度可扩展且开源的全文检索和分析引擎。它可以让您快速且近实时地存储，检索以及分析海量数据。它通常用作那些具有复杂搜索功能和需求的应用的底层引擎或者技术。">
+<meta name="keywords" content="java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Elasticsearch常用工具api">
+<meta property="og:url" content="https://removeif.github.io/java/elasticsearch/Elasticsearch常用工具api.html">
+<meta property="og:site_name" content="辣椒の酱">
+<meta property="og:description" content="摘要Elasticsearch 是一个高度可扩展且开源的全文检索和分析引擎。它可以让您快速且近实时地存储，检索以及分析海量数据。它通常用作那些具有复杂搜索功能和需求的应用的底层引擎或者技术。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-02-02T02:00:25.578Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Elasticsearch常用工具api">
+<meta name="twitter:description" content="摘要Elasticsearch 是一个高度可扩展且开源的全文检索和分析引擎。它可以让您快速且近实时地存储，检索以及分析海量数据。它通常用作那些具有复杂搜索功能和需求的应用的底层引擎或者技术。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/remove.io/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+<script data-ad-client="ca-pub-6343805421927634" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Itim|Lobster.css">
+
+
+
+
+
+  <link rel="canonical" href="https://removeif.github.io/java/elasticsearch/Elasticsearch常用工具api.html">
+
+
+
+
+
+  <title>Elasticsearch常用工具api | 辣椒の酱</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/remove.io/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">辣椒の酱</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">尚未执佩剑，转眼即江湖</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/remove.io/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/remove.io/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/remove.io/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/remove.io/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-message">
+          <a href="https://removeif.github.io/message/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            message
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-master">
+          <a href="https://removeif.github.io/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            master
+          </a>
+        </li>
+      
+
+      
+        <div class="g-ads-y">
+            <br>
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6343805421927634" data-ad-slot="6639418948" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+    </ul>
+  
+
+  
+
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://removeif.github.io/remove.io/java/elasticsearch/Elasticsearch常用工具api.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="辣椒の酱">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/removeif/removeif.github.io@master/images/tuzi.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="辣椒の酱">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Elasticsearch常用工具api</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-26T17:11:12+08:00">
+                2019-04-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/remove.io/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/remove.io/categories/java/elasticsearch6/" itemprop="url" rel="index">
+                    <span itemprop="name">elasticsearch6</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>摘要<br><strong>Elasticsearch</strong> 是一个高度可扩展且开源的全文检索和分析引擎。它可以让您快速且近实时地存储，检索以及分析海量数据。它通常用作那些具有复杂搜索功能和需求的应用的底层引擎或者技术。</p>
+</blockquote>
+<a id="more"></a>
+
+<p>下面是 <strong>Elasticsearch</strong> 一些简单的使用案例 :</p>
+<ul>
+<li>您运行一个可以让您顾客来搜索您所售产品的在线的网络商店。在这种情况下，您可以使用 <strong>Elasticsearch</strong> 来存储您的整个产品的目录和库存，并且为他们提供搜索和自动完成的建议。</li>
+<li>您想要去收集日志或交易数据，并且您还想要去分析和挖掘这些数据以来找出趋势，统计，概述，或者异常现。在这种情况下，您可以使用 <strong>Logstash</strong>（<strong>Elasticsearch</strong>/<strong>Logstash</strong>/<strong>Kibana</strong> 技术栈中的一部分）来收集，聚合，以及解析数据，然后让 <strong>Logstash</strong> 发送这些数据到 <strong>Elasticsearch</strong>。如果这些数据存在于 <strong>Elasticsearch</strong> 中，那么您就可以执行搜索和聚合以挖掘出任何您感兴趣的信息。</li>
+<li>您运行一个价格警告平台，它允许客户指定精确的价格，如“我感兴趣的是购买指定的电子产品，如果任何供应商该产品的价格在未来一个月内低于 <strong>$X</strong> 这个价钱的话我应该被通知到”。在这种情况下，您可以收集供应商的价格，推送它们到 <strong>Elasticsearch</strong> 中去，然后使用 <strong>reverse-search</strong>（<strong>Percolator</strong>）（反向搜索（过滤器））功能以匹配客户查询价格的变动，最后如果发现匹配成功就给客户发出通知。</li>
+<li>您必须分析/商业智能的需求，并希望快速的研究，分析，可视化，并且需要 <strong>ad-hoc</strong>（即席查询）海量数据（像数百万或者数十亿条记录）上的质疑。在这种情况下，您可以使用 <strong>Elasticsearch</strong> 来存储数据，然后使用 <strong>Kibana</strong>（<strong>Elasticsearch</strong>/<strong>Logstash</strong>/<strong>Kibana</strong> 技术栈中的一部分）以建立一个能够可视化的对您很重要的数据方面的定制的 <strong>dashboards</strong>（面板）。此外，您还可以使用 <strong>Elasticsearch</strong> 的聚合功能对您的数据执行复杂的商业智能查询</li>
+</ul>
+<p>对于本教程的其余部分，我将引导您完成 <strong>Elasticsearch</strong> 的启动和运行的过程，同时了解其原理，并执行像 <strong>indexing</strong>（索引），<strong>searching</strong>（查询）和 <strong>modifing</strong>（修改）数据的基础操作。在本教程的最后一部分，您应该可以清楚的了解到 <strong>Elasticsearch</strong> 是什么，它是如何工作的，并有希望获得启发。看您如何使用它来构建复杂的搜索应用程序或者从数据中挖掘出想要的信息。</p>
+<p>常用实例</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br></pre></td><td class="code"><pre><span class="line"># 常用kibana脚本(可以自动填充，比较好用)</span><br><span class="line">PUT /test_business/data/1 #更改数据</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span>:<span class="string">"zhe"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">POST _analyze #实时分词</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"text"</span>: <span class="string">"张月超"</span>,</span><br><span class="line">  <span class="attr">"analyzer"</span>: <span class="string">"ik_max_word"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">DELETE /analyze_index #删除索引</span><br><span class="line">GET analyze_index/_settings #查看索引_settings</span><br><span class="line"></span><br><span class="line">GET analyze_index/_mapping #查看索引_mapping</span><br><span class="line"></span><br><span class="line">POST /analyze_index/data/_mapping #设置mapping</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"dynamic"</span>: <span class="string">"false"</span>,</span><br><span class="line">  <span class="attr">"properties"</span>: &#123;</span><br><span class="line">    <span class="attr">"name"</span>: &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"text"</span>,</span><br><span class="line">      <span class="attr">"analyzer"</span>: <span class="string">"ik"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">POST /analyze_index #设置settings</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"settings"</span>: &#123;</span><br><span class="line">    <span class="attr">"index"</span>: &#123;</span><br><span class="line">      <span class="attr">"analysis"</span>: &#123;</span><br><span class="line">        <span class="attr">"normalizer"</span>: &#123;</span><br><span class="line">          <span class="attr">"case_insensitive_normalizer"</span>: &#123;</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"custom"</span>,</span><br><span class="line">            <span class="attr">"filter"</span>: <span class="string">"lowercase"</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">"filter"</span>: &#123;</span><br><span class="line">          <span class="attr">"my_synonym"</span>: &#123;</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"synonym"</span>,</span><br><span class="line">            <span class="attr">"synonyms_path"</span>: <span class="string">"analysis-ik/extra/synonyms.dic"</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">"analyzer"</span>: &#123;</span><br><span class="line">          <span class="attr">"ik"</span>: &#123;</span><br><span class="line">            <span class="attr">"filter"</span>: [</span><br><span class="line">              <span class="string">"my_synonym"</span></span><br><span class="line">            ],</span><br><span class="line">            <span class="attr">"char_filter"</span>: [</span><br><span class="line">              <span class="string">"my_char_mapper"</span></span><br><span class="line">            ],</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"custom"</span>,</span><br><span class="line">            <span class="attr">"tokenizer"</span>: <span class="string">"ik_max_word"</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">"char_filter"</span>: &#123;</span><br><span class="line">          <span class="attr">"my_char_mapper"</span>: &#123;</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"mapping"</span>,</span><br><span class="line">            <span class="attr">"mappings_path"</span>: <span class="string">"analysis-ik/extra/pre_filter_mapping.dic"</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"mapping"</span>: &#123;</span><br><span class="line">    <span class="attr">"data"</span>: &#123;</span><br><span class="line">      <span class="attr">"properties"</span>: &#123;</span><br><span class="line">        <span class="attr">"name"</span>: &#123;</span><br><span class="line">          <span class="attr">"type"</span>: <span class="string">"text"</span>,</span><br><span class="line">          <span class="attr">"analyzer"</span>: <span class="string">"ik"</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">GET /es_test_analyzer/_settings</span><br><span class="line"></span><br><span class="line">GET /es_test_analyzer/_mapping</span><br><span class="line"></span><br><span class="line">GET /analyze_index/data/1</span><br><span class="line"></span><br><span class="line">POST /es_test_analyzer/_analyze</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"text"</span>: <span class="string">"超越"</span>,</span><br><span class="line">  <span class="attr">"analyzer"</span>: <span class="string">"ik_max_word"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">POST /es_test_analyzer/data/1</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"张月超666哈哈张月超"</span>,</span><br><span class="line">  <span class="attr">"nick_name"</span>:<span class="string">"张月超666哈哈张月超"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">POST /es_test_analyzer/data/2</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"王月"</span>,</span><br><span class="line">  <span class="attr">"nick_name"</span>:<span class="string">"王月"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">POST /es_test_analyzer/data/3</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"超越"</span>,</span><br><span class="line">  <span class="attr">"nick_name"</span>:<span class="string">"超越"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">GET /es_test_analyzer/data/1</span><br><span class="line"></span><br><span class="line">GET /es_test_analyzer/data/3/_termvectors?fields=nick_name # 查看索引中分词情况</span><br><span class="line"></span><br><span class="line">GET /es_test_analyzer/data/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"query"</span>: &#123;</span><br><span class="line">    <span class="attr">"multi_match"</span>: &#123;</span><br><span class="line">      <span class="attr">"query"</span>: <span class="string">"超越"</span>,</span><br><span class="line">      <span class="attr">"fields"</span>: [</span><br><span class="line">        <span class="string">"nick_name"</span></span><br><span class="line">      ],</span><br><span class="line">      <span class="attr">"analyzer"</span>: <span class="string">"ik"</span>, </span><br><span class="line">      <span class="attr">"operator"</span>: <span class="string">"or"</span>, </span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"best_fields"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"highlight"</span>: &#123;</span><br><span class="line">    <span class="attr">"fields"</span>: &#123;</span><br><span class="line">      <span class="attr">"name"</span>: &#123;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">DELETE /es_test_analyzer/</span><br><span class="line"></span><br><span class="line">GET /analyze_index/data/_mapping</span><br><span class="line"></span><br><span class="line">GET /test/data/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"query"</span>: &#123;</span><br><span class="line">    <span class="attr">"bool"</span>: &#123;</span><br><span class="line">      <span class="attr">"should"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">"multi_match"</span>: &#123;</span><br><span class="line">            <span class="attr">"query"</span>: <span class="string">"餐饮"</span>,</span><br><span class="line">            <span class="attr">"fields"</span>: [<span class="string">"title^2"</span>,<span class="string">"tags"</span>]</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,&#123;</span><br><span class="line">          <span class="attr">"wildcard"</span>: &#123;</span><br><span class="line">            <span class="attr">"name"</span>: &#123;</span><br><span class="line">              <span class="attr">"value"</span>: <span class="string">"*中国*"</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">GET /user/data/9969/_explain # 查看详细id：9969 得分情况</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"query"</span>: &#123;</span><br><span class="line">        <span class="attr">"bool"</span>: &#123;</span><br><span class="line">          <span class="attr">"must"</span>: [</span><br><span class="line">            &#123;</span><br><span class="line">              <span class="attr">"multi_match"</span>: &#123;</span><br><span class="line">                <span class="attr">"query"</span>: <span class="string">"tacos n frankies"</span>,</span><br><span class="line">                <span class="attr">"fields"</span>: [</span><br><span class="line">                  <span class="string">"name^1.0"</span>,</span><br><span class="line">                  <span class="string">"info^1.0"</span></span><br><span class="line">                ],</span><br><span class="line">                <span class="attr">"type"</span>: <span class="string">"best_fields"</span>,</span><br><span class="line">                <span class="attr">"operator"</span>: <span class="string">"or"</span>,</span><br><span class="line">                <span class="attr">"analyzer"</span>: <span class="string">"ik_max_word"</span>,</span><br><span class="line">                <span class="attr">"slop"</span>: <span class="number">0</span>,</span><br><span class="line">                <span class="attr">"prefix_length"</span>: <span class="number">0</span>,</span><br><span class="line">                <span class="attr">"max_expansions"</span>: <span class="number">50</span>,</span><br><span class="line">                <span class="attr">"zero_terms_query"</span>: <span class="string">"NONE"</span>,</span><br><span class="line">                <span class="attr">"auto_generate_synonyms_phrase_query"</span>: <span class="literal">true</span>,</span><br><span class="line">                <span class="attr">"fuzzy_transpositions"</span>: <span class="literal">true</span>,</span><br><span class="line">                <span class="attr">"boost"</span>: <span class="number">1</span></span><br><span class="line">              &#125;</span><br><span class="line">            &#125;</span><br><span class="line">          <span class="string">"adjust_pure_negative"</span>: <span class="literal">true</span>,</span><br><span class="line">          <span class="string">"boost"</span>: <span class="number">1</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      ,</span><br><span class="line">  <span class="string">"highlight"</span>: &#123;</span><br><span class="line">    <span class="attr">"fields"</span>: &#123;</span><br><span class="line">      <span class="attr">"name"</span>: &#123;&#125;,</span><br><span class="line">      <span class="attr">"info"</span>: &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">GET /user/data/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"query"</span>: &#123;</span><br><span class="line">        <span class="attr">"bool"</span>: &#123;</span><br><span class="line">          <span class="attr">"must"</span>: [</span><br><span class="line">            &#123;</span><br><span class="line">              <span class="attr">"multi_match"</span>: &#123;</span><br><span class="line">                <span class="attr">"query"</span>: <span class="string">"tacos n frankies"</span>,</span><br><span class="line">                <span class="attr">"fields"</span>: [</span><br><span class="line">                  <span class="string">"name^1.0"</span>,</span><br><span class="line">                  <span class="string">"info^1.0"</span></span><br><span class="line">                ],</span><br><span class="line">                <span class="attr">"type"</span>: <span class="string">"best_fields"</span>,</span><br><span class="line">                <span class="attr">"operator"</span>: <span class="string">"or"</span>,</span><br><span class="line">                <span class="attr">"analyzer"</span>: <span class="string">"ik_max_word"</span>,</span><br><span class="line">                <span class="attr">"slop"</span>: <span class="number">0</span>,</span><br><span class="line">                <span class="attr">"prefix_length"</span>: <span class="number">0</span>,</span><br><span class="line">                <span class="attr">"max_expansions"</span>: <span class="number">50</span>,</span><br><span class="line">                <span class="attr">"zero_terms_query"</span>: <span class="string">"NONE"</span>,</span><br><span class="line">                <span class="attr">"auto_generate_synonyms_phrase_query"</span>: <span class="literal">true</span>,</span><br><span class="line">                <span class="attr">"fuzzy_transpositions"</span>: <span class="literal">true</span>,</span><br><span class="line">                <span class="attr">"boost"</span>: <span class="number">1</span></span><br><span class="line">              &#125;</span><br><span class="line">            &#125;</span><br><span class="line">          <span class="string">"adjust_pure_negative"</span>: <span class="literal">true</span>,</span><br><span class="line">          <span class="string">"boost"</span>: <span class="number">1</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      ,</span><br><span class="line">  <span class="string">"highlight"</span>: &#123;</span><br><span class="line">    <span class="attr">"fields"</span>: &#123;</span><br><span class="line">      <span class="attr">"name"</span>: &#123;&#125;,</span><br><span class="line">      <span class="attr">"info"</span>: &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>查看健康信息</li>
+</ol>
+<blockquote>
+<p>curl -XGET ‘localhost:9200/_cat/health?v&amp;pretty’</p>
+</blockquote>
+<p>我们可以获得 <strong>green</strong>，<strong>yellow</strong>，或者 <strong>red</strong> 的 <strong>status</strong>。<strong>Green</strong> 表示一切正常（集群功能齐全）， <strong>yellow</strong> 表示所有数据可用，但是有些副本尚未分配（集群功能齐全），<strong>red</strong> 意味着由于某些原因有些数据不可用。注意，集群是 <strong>red</strong>，它仍然具有部分功能（例如，它将继续从可用的分片中服务搜索请求），但是您可能需要尽快去修复它，因为您已经丢失数据了。</p>
+<ol start="2">
+<li>查看所有的索引</li>
+</ol>
+<blockquote>
+<p>curl -XGET ‘localhost:9200/_cat/indices?v&amp;pretty’</p>
+</blockquote>
+<h2 id="Document-APIS"><a href="#Document-APIS" class="headerlink" title="Document APIS"></a>Document APIS</h2><h3 id="index-api"><a href="#index-api" class="headerlink" title="index api"></a>index api</h3><ol>
+<li>索引 <strong>API</strong> 在特定索引中 <strong>add</strong> ( 添加 ) 或 <strong>update *( 更新 ) *a typed JSON document</strong> ( 类型化的 <strong>JSON</strong> 文档 )，使其可搜索。以下示例将 <strong>JSON</strong> 文档插入到 <strong>“twitter”</strong> 索引中，<strong>ID</strong> 为<strong>1</strong> ：</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">curl -XPUT <span class="string">'localhost:9200/twitter/tweet/1?pretty'</span> -H <span class="string">'Content-Type: application/json'</span> -d<span class="string">'</span></span><br><span class="line"><span class="string">&#123;</span></span><br><span class="line"><span class="string">    "user" : "kimchy",</span></span><br><span class="line"><span class="string">    "post_date" : "2009-11-15T14:12:12",</span></span><br><span class="line"><span class="string">    "message" : "trying out Elasticsearch"</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">'</span></span><br><span class="line">结果：</span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">"_shards"</span> : &#123;</span><br><span class="line">        <span class="string">"total"</span> : <span class="number">2</span>,</span><br><span class="line">        <span class="string">"failed"</span> : <span class="number">0</span>,</span><br><span class="line">        <span class="string">"successful"</span> : <span class="number">2</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">"_index"</span> : <span class="string">"twitter"</span>,</span><br><span class="line">    <span class="string">"_type"</span> : <span class="string">"tweet"</span>,</span><br><span class="line">    <span class="string">"_id"</span> : <span class="string">"1"</span>,</span><br><span class="line">    <span class="string">"_version"</span> : <span class="number">1</span>,</span><br><span class="line">    <span class="string">"created"</span> : <span class="keyword">true</span>,</span><br><span class="line">    <span class="string">"result"</span> : created</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>total</strong> - 指示应对多少 <strong>shard copies ( 分片副本 )（ \primary</strong> ( 主 )分片和 <strong>replica</strong> ( 副本 ) 分片）执行索引操作。</li>
+<li><strong>successful</strong> - 表示索引操作成功的分片副本的数量。</li>
+<li><strong>failed</strong> - 在索引操作在副本碎片上失败的情况下包含与复制相关的错误的数组。</li>
+</ul>
+<p>当索引操作 <strong>successful</strong> 返回时，可能不会全部启动副本碎片（默认情况下，只需要主索引，但可以更改此行为）。在这种情况下， <strong>total</strong> 将等于基于 <strong>number_of_replicas</strong> 设置的总分片，并且 <strong>successful</strong> 将等于已启动的分片数（主副本和副本）。如果没有失败， <strong>failed</strong> 将是 0 。</p>
+<h3 id="get-api"><a href="#get-api" class="headerlink" title="get api"></a>get api</h3><p><strong>get api</strong> 允许从一个基于其id的 <strong>index</strong> 中获取一个 JSON格式的 <strong>document</strong>，下面的示例是从一个在名称为tweet的 <strong>type \下的id为1，名称为twitter的 \index \中获取一个JSON格式的 \document</strong>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -XGET <span class="string">'http://localhost:9200/twitter/tweet/1'</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="update-api"><a href="#update-api" class="headerlink" title="update api"></a>update api</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"># 更新api </span><br><span class="line">PUT test/type1/<span class="number">1</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">"counter"</span> : <span class="number">1</span>,</span><br><span class="line">    <span class="string">"tags"</span> : [<span class="string">"red"</span>]</span><br><span class="line">&#125;</span><br><span class="line"># 脚本更新</span><br><span class="line">POST test/type1/<span class="number">1</span>/_update</span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">"script"</span> : &#123;</span><br><span class="line">        <span class="string">"inline"</span>: <span class="string">"ctx._source.counter += params.count"</span>,</span><br><span class="line">        <span class="string">"lang"</span>: <span class="string">"painless"</span>,</span><br><span class="line">        <span class="string">"params"</span> : &#123;</span><br><span class="line">            <span class="string">"count"</span> : <span class="number">4</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 将新字段添加到文档：</span><br><span class="line">POST test/type1/<span class="number">1</span>/_update</span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">"script"</span> : <span class="string">"ctx._source.new_field = \"value_of_new_field\""</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 删除字段</span><br><span class="line">POST test/type1/<span class="number">1</span>/_update</span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">"script"</span> : <span class="string">"ctx._source.remove(\"new_field\")"</span></span><br><span class="line">&#125;</span><br><span class="line"># 甚至可以改变已执行的操作。这个例子就是删除文档，如果 tags包含 green，否则就什么也不做（noop）：</span><br><span class="line">POST test/type1/<span class="number">1</span>/_update</span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">"script"</span> : &#123;</span><br><span class="line">        <span class="string">"inline"</span>: <span class="string">"if (ctx._source.tags.contains(params.tag)) &#123; ctx.op = \"delete\" &#125; else &#123; ctx.op = \"none\" &#125;"</span>,</span><br><span class="line">        <span class="string">"lang"</span>: <span class="string">"painless"</span>,</span><br><span class="line">        <span class="string">"params"</span> : &#123;</span><br><span class="line">            <span class="string">"tag"</span> : <span class="string">"green"</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="通过查询api更新"><a href="#通过查询api更新" class="headerlink" title="通过查询api更新"></a>通过查询api更新</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">POST twitter/_update_by_query</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"script"</span>: &#123;</span><br><span class="line">    <span class="string">"inline"</span>: <span class="string">"ctx._source.likes++"</span>,</span><br><span class="line">    <span class="string">"lang"</span>: <span class="string">"painless"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"term"</span>: &#123;</span><br><span class="line">      <span class="string">"user"</span>: <span class="string">"kimchy"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="bulk-api"><a href="#bulk-api" class="headerlink" title="bulk api"></a>bulk api</h3><p>Bulk API，能够在一个单一的API调用执行多项索引/删除操作。这可以大大提高索引速度。</p>
+<p>该 REST API 端点<code>/_bulk</code>，它遵循JSON结构：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">action_and_meta_data\n</span><br><span class="line">optional_source\n</span><br><span class="line">action_and_meta_data\n</span><br><span class="line">optional_source\n</span><br><span class="line">....</span><br><span class="line">action_and_meta_data\n</span><br><span class="line">optional_source\n</span><br></pre></td></tr></table></figure>
+
+<p>注意：数据的最终行必须以换行符结束<code>\n</code>。</p>
+<p>可能的操作有 <code>index</code>，<code>create</code>，<code>delete</code>和 <code>update</code>， <code>index 和 ``create</code>期望在下一行的作为源，并与索引 API 有相同的语义。（如果文件具有相同的索引和类型的文件已经存在，就会创建失败，必要时候而索引回添加或替换文件）。<code>delete</code>不会作为下一行的源，并与 delete API 中具有相同的语义。<code>update 是希望</code>部分文档，upsert 和脚本及其选项能够在下一行指定。</p>
+<h3 id="delete-api"><a href="#delete-api" class="headerlink" title="delete api"></a>delete api</h3><p>delete API允许基于指定的ID来从索引库中删除一个JSON文件。下面演示了从一个叫<code>twitter</code>的索引库的<code>tweet</code>type下删除文档，<code>id</code>是<code>1</code>:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl -XDELETE <span class="string">'http://localhost:9200/twitter/tweet/1'</span></span><br></pre></td></tr></table></figure>
+
+<p>索引的每个文档都被标记了版本。当删除文档时， 可以通过指定<code>version</code>来确保我们试图删除一个实际上已被删除的文档时，它在此期间并没有改变。在文档中执行的每个写入操作，包括删除，都会使其版本递增。</p>
+<h3 id="delete-by-query-api"><a href="#delete-by-query-api" class="headerlink" title="delete by query api"></a>delete by query api</h3><p>最简单的用法是使用<code>_delete_by_query</code>对每个查询匹配的文档执行删除。这是API:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">POST twitter/_delete_by_query</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"query"</span>: &#123; <span class="comment">//①</span></span><br><span class="line">    <span class="string">"match"</span>: &#123;</span><br><span class="line">      <span class="string">"message"</span>: <span class="string">"some message"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="term-vectors"><a href="#term-vectors" class="headerlink" title="term vectors"></a>term vectors</h3><p>返回有关特定文档字段中的词条的信息和统计信息。文档可以存储在索引中或由用户人工提供。词条向量默认为<a href="https://aqlu.gitbooks.io/elasticsearch-reference/content/Document_APIS/Get_API.html#realtime" target="_blank" rel="noopener">实时</a>，不是近实时。这可以通过将<code>realtime</code>参数设置为<code>false</code>来更改。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET /twitter/tweet/<span class="number">1</span>/_termvectors</span><br></pre></td></tr></table></figure>
+
+<p>可选的，您可以使用<code>url</code>中的参数指定检索信息的字段：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET /twitter/tweet/<span class="number">1</span>/_termvectors?fields=message</span><br></pre></td></tr></table></figure>
+
+<h2 id="search"><a href="#search" class="headerlink" title="search"></a>search</h2><h3 id="query-api"><a href="#query-api" class="headerlink" title="query api"></a>query api</h3><p>结果的分页可以通过使用 from 和 size 参数来完成。 from 参数定义了您要提取的第一个结果的偏移量。 size 参数允许您配置要返回的最大匹配数。</p>
+<p>虽然 from 和 size 可以设置为请求参数，但它们也可以在搜索正文中设置。from 默认值为 0，size 默认为 10。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">GET /_search</span><br><span class="line">&#123;</span><br><span class="line">    &quot;from&quot; : 0, &quot;size&quot; : 10,</span><br><span class="line">    &quot;query&quot; : &#123;</span><br><span class="line">        &quot;term&quot; : &#123; &quot;user&quot; : &quot;kimchy&quot; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意 from + size 不能超过 index.max_result_window 索引设置，默认为 10,000。 有关深入滚动的更有效方法，请参阅 Scroll 或 Search After API。</p>
+<h3 id="sort"><a href="#sort" class="headerlink" title="sort"></a>sort</h3><p>排序选项可以有以下值：</p>
+<p>| <code>asc</code> | 按升序排序 | | <code>desc</code> | 按倒序排序 |</p>
+<p>在对 _score 进行排序时，该顺序默认为 desc，在对其他事物进行排序时默认为 asc。</p>
+<p>Sort mode Option</p>
+<p>Elasticsearch支持按数组或多值字段排序。 mode 选项控制选择用于对其所属文档进行排序的数组值。 mode 选项可以具有以下值：</p>
+<p>| <code>min</code> | 选择最低值。 | | <code>max</code> | 选择最高值。 | | <code>sum</code> | 使用所有值的和作为排序值。 仅适用于基于数字的数组字段。 | | <code>avg</code> | 使用所有值的平均值作为排序值。 仅适用于基于数字的数组字段。 | | <code>median</code> | 使用所有值的中值作为排序值。 仅适用于基于数字的数组字段。 |</p>
+<p>Elasticsearch 还支持根据一个或多个嵌套对象内的字段进行排序。 通过嵌套字段支持进行的排序在已经存在的排序选项之上具有以下参数：</p>
+<p>nested_path 定义要排序的嵌套对象。 实际排序字段必须是此嵌套对象内的直接字段。 当通过嵌套字段排序时，此字段是必需的。</p>
+<p>nested_filter</p>
+<p>嵌套路径中的内部对象应与其匹配的过滤器，以便通过排序考虑其字段值。 常见的情况是在嵌套的过滤器或查询中重复查询/过滤。 默认情况下，没有 nested_filter 是激活的。</p>
+<p>Nested sorting example</p>
+<p>在下面的示例中，offer是一个类型为嵌套的字段。 需要指定nested_path; 否则，elasticsearch不知道需要捕获哪个嵌套级排序值。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">POST /_search</span><br><span class="line">&#123;</span><br><span class="line">   <span class="string">"query"</span> : &#123;</span><br><span class="line">      <span class="string">"term"</span> : &#123; <span class="string">"product"</span> : <span class="string">"chocolate"</span> &#125;</span><br><span class="line">   &#125;,</span><br><span class="line">   <span class="string">"sort"</span> : [</span><br><span class="line">       &#123;</span><br><span class="line">          <span class="string">"offer.price"</span> : &#123;</span><br><span class="line">             <span class="string">"mode"</span> :  <span class="string">"avg"</span>,</span><br><span class="line">             <span class="string">"order"</span> : <span class="string">"asc"</span>,</span><br><span class="line">             <span class="string">"nested_path"</span> : <span class="string">"offer"</span>,</span><br><span class="line">             <span class="string">"nested_filter"</span> : &#123;</span><br><span class="line">                <span class="string">"term"</span> : &#123; <span class="string">"offer.color"</span> : <span class="string">"blue"</span> &#125;</span><br><span class="line">             &#125;</span><br><span class="line">          &#125;</span><br><span class="line">       &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当通过脚本排序和按地理距离排序时，也支持嵌套排序。</p>
+<p><strong>Missing Values</strong></p>
+<p>缺少的参数指定应如何处理缺少字段的文档：缺少的值可以设置为 <em>last，</em>first 或自定义值（将用于缺少文档作为排序值）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">GET /_search</span><br><span class="line">&#123;</span><br><span class="line">    &quot;sort&quot; : [</span><br><span class="line">        &#123; &quot;price&quot; : &#123;&quot;missing&quot; : &quot;_last&quot;&#125; &#125;</span><br><span class="line">    ],</span><br><span class="line">    &quot;query&quot; : &#123;</span><br><span class="line">        &quot;term&quot; : &#123; &quot;product&quot; : &quot;chocolate&quot; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Note：如果嵌套的内部对象与 nested_filter 不匹配，则使用缺少的值。</p>
+<p><strong>Geo Distance Sorting</strong></p>
+<p>允许按 <em>geo</em>distance 排序。 下面是一个例子，假设 pin.location 是一个类型为 geo_point 的字段：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">GET /_search</span><br><span class="line">&#123;</span><br><span class="line">    &quot;sort&quot; : [</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;_geo_distance&quot; : &#123;</span><br><span class="line">                &quot;pin.location&quot; : [-70, 40],</span><br><span class="line">                &quot;order&quot; : &quot;asc&quot;,</span><br><span class="line">                &quot;unit&quot; : &quot;km&quot;,</span><br><span class="line">                &quot;mode&quot; : &quot;min&quot;,</span><br><span class="line">                &quot;distance_type&quot; : &quot;sloppy_arc&quot;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    &quot;query&quot; : &#123;</span><br><span class="line">        &quot;term&quot; : &#123; &quot;user&quot; : &quot;kimchy&quot; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>distance_type</strong></p>
+<p>如何计算距离。 可以是 sloppy_arc（默认），弧（稍微更精确但显着更慢）或平面（更快，但不准确在长距离和接近极点）。 <strong>mode</strong> 如果字段有多个地理点，该怎么办。 默认情况下，按升序排序时考虑最短距离，按降序排序时最长距离。 支持的值为 min，max，median 和 avg。 <strong>unit</strong> 计算排序值时使用的单位。 默认值为 m（米）。</p>
+<p>geo distance sorting 不支持可配置的缺失值：当文档没有用于距离计算的字段的值时，距离将始终被视为等于 Infinity。</p>
+<p>在提供坐标时支持以下格式：</p>
+<h3 id="highlighting"><a href="#highlighting" class="headerlink" title="highlighting"></a>highlighting</h3><p>允许突出显示一个或多个字段的搜索结果。 实现使用 lucene 普通荧光笔，快速向量荧光笔（fvh）或 postings 荧光笔。 以下是一个搜索请求正文的示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">GET /_search</span><br><span class="line">&#123;</span><br><span class="line">    &quot;query&quot; : &#123;</span><br><span class="line">        &quot;match&quot;: &#123; &quot;user&quot;: &quot;kimchy&quot; &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;highlight&quot; : &#123;</span><br><span class="line">        &quot;fields&quot; : &#123;</span><br><span class="line">            &quot;content&quot; : &#123;&#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在上述情况下，内容字段将为每个搜索命中突出显示（每个搜索命中内将有另一个元素，称为突出显示，其中包括突出显示的字段和突出显示的片段）。</p>
+<p>Note：</p>
+<p>为了执行突出显示，需要字段的实际内容。 如果有问题的字段被存储（在映射中存储设置为 true），它将被使用，否则，实际的 _source 将被加载，并且相关字段将从中提取。</p>
+<p>_all 字段不能从 _source 中提取，因此它只能用于突出显示，如果它映射到将 store 设置为 true。</p>
+<p>字段名称支持通配符符号。 例如，使用 comment_ * 将导致所有与表达式匹配的文本和关键字字段（以及 5.0 之前的字符串）被突出显示。 请注意，所有其他字段将不会突出显示。 如果您使用自定义映射器并要在字段上突出显示，则必须显式提供字段名称。</p>
+<p><strong>Plain highlighte</strong>(有多种类型选择、根据实际情况使用)</p>
+<p>荧光笔的默认选择是普通类型，并使用Lucene荧光笔。 它试图在理解词重要性和短语查询中的任何词定位标准方面反映查询匹配逻辑。</p>
+<p>warning：</p>
+<p>如果你想突出很多文档中的大量字段与复杂的查询，这个荧光笔不会快。 在努力准确地反映查询逻辑，它创建一个微小的内存索引，并通过 Lucene 的查询执行计划程序重新运行原始查询条件，以获取当前文档的低级别匹配信息。 这对于每个字段和需要突出显示的每个文档重复。 如果这在您的系统中出现性能问题，请考虑使用替代荧光笔。</p>
+<h3 id="search-type"><a href="#search-type" class="headerlink" title="search type"></a>search type</h3><p><strong>Query Then Fetch</strong></p>
+<p>参数值： query_then_fetch。</p>
+<p>请求分两个阶段处理。 在第一阶段，查询被转发到所有涉及的分片。 每个分片执行搜索并生成对该分片本地的结果的排序列表。 每个分片只向协调节点返回足够的信息，以允许其合并并将分片级结果重新排序为全局排序的最大长度大小的结果集。</p>
+<p>在第二阶段期间，协调节点仅从相关分片请求文档内容（以及高亮显示的片段，如果有的话）。</p>
+<p>Note：</p>
+<p>如果您未在请求中指定 search_type，那么这是默认设置。</p>
+<p><strong>Dfs, Query Then Fetch</strong></p>
+<p>参数值：dfs_query_then_fetch</p>
+<p>与 “Query Then Fetch” 相同，除了初始分散阶段，其计算分布项频率用于更准确的计分。</p>
+<h3 id="scroll-游标-多数据深度分页问题解决"><a href="#scroll-游标-多数据深度分页问题解决" class="headerlink" title="scroll 游标(多数据深度分页问题解决)"></a>scroll 游标(多数据深度分页问题解决)</h3><p>从滚动请求返回的结果反映了进行初始搜索请求时索引的状态，如时间快照。 对文档（索引，更新或删除）的后续更改只会影响以后的搜索请求。</p>
+<p>为了使用滚动，初始搜索请求应该在查询字符串中指定滚动参数，它告诉 Elasticsearch 应保持“搜索上下文”活动的时间（见保持搜索上下文），例如 ?scroll=1m。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">POST /twitter/tweet/_search?scroll=<span class="number">1</span>m</span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">"size"</span>: <span class="number">100</span>,</span><br><span class="line">    <span class="string">"query"</span>: &#123;</span><br><span class="line">        <span class="string">"match"</span> : &#123;</span><br><span class="line">            <span class="string">"title"</span> : <span class="string">"elasticsearch"</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上述请求的结果包括一个 <em>scroll</em>id，它应该被传递给滚动 API，以便检索下一批结果。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">POST ①/_search/scroll ②</span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">"scroll"</span> : <span class="string">"1m"</span>, ③</span><br><span class="line">    <span class="string">"scroll_id"</span> : <span class="string">"DXF1ZXJ5QW5kRmV0Y2gBAAAAAAAAAD4WYm9laVYtZndUQlNsdDcwakFMNjU1QQ=="</span> ④</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>| ① | 可以使用GET或POST。 | | ② | 网址不应包含索引或类型名称 - 而是在原始搜索请求中指定的。 | | ③ | scroll 参数告诉 Elasticsearch 将搜索上下文打开另一个1m。 | | ④ | scroll_id参数 |</p>
+<p>size 参数允许您配置每批结果返回的最大命中数。 每次调用 scroll API 都会返回下一批结果，直到没有更多结果要返回，即 hits 数组为空。</p>
+<h3 id="explan"><a href="#explan" class="headerlink" title="explan"></a>explan</h3><p>启用每次匹配对其评分计算方式的说明。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">GET /_search</span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">"explain"</span>: <span class="keyword">true</span>,</span><br><span class="line">    <span class="string">"query"</span> : &#123;</span><br><span class="line">        <span class="string">"term"</span> : &#123; <span class="string">"user"</span> : <span class="string">"kimchy"</span> &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="suggesters-共有四种方式"><a href="#suggesters-共有四种方式" class="headerlink" title="suggesters (共有四种方式)"></a>suggesters (共有四种方式)</h2><ul>
+<li><a href="https://elasticsearch.apachecn.org/#/docs/123" target="_blank" rel="noopener">Completion Suggester</a></li>
+<li><a href="https://elasticsearch.apachecn.org/#/docs/124" target="_blank" rel="noopener">Context Suggester</a></li>
+<li><a href="https://elasticsearch.apachecn.org/#/docs/125" target="_blank" rel="noopener">Phrase Suggester</a></li>
+<li><a href="https://elasticsearch.apachecn.org/#/docs/126" target="_blank" rel="noopener">Term suggester</a></li>
+</ul>
+<h3 id="completion-suggester"><a href="#completion-suggester" class="headerlink" title="completion suggester"></a>completion suggester</h3><p>完全（<strong>completion</strong>）<strong>suggester</strong> 提供自动完成/按需搜索功能。 这是一种导航功能，可在用户输入时引导用户查看相关结果，从而提高搜索精度。 它不是用于拼写校正或平均值功能，如术语或短语 *<em>suggesters *</em>。</p>
+<p>理想地，自动完成功能应当与用户键入的速度一样快，以提供与用户已经键入的内容相关的即时反馈。因此，完成 <strong>suggester</strong> 针对速度进行优化。 <strong>suggester</strong> 使用允许快速查找的数据结构，但是构建成本高并且存储在存储器中。</p>
+<p>要使用此功能，请为此字段指定一个特殊映射，为快速完成的字段值编制索引。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">PUT music</span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">"mappings"</span>: &#123;</span><br><span class="line">        <span class="string">"song"</span> : &#123;</span><br><span class="line">            <span class="string">"properties"</span> : &#123;</span><br><span class="line">                <span class="string">"suggest"</span> : &#123;</span><br><span class="line">                    <span class="string">"type"</span> : <span class="string">"completion"</span></span><br><span class="line">                &#125;,</span><br><span class="line">                <span class="string">"title"</span> : &#123;</span><br><span class="line">                    <span class="string">"type"</span>: <span class="string">"keyword"</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>映射支持以下参数：</p>
+<p><strong>analyzer</strong></p>
+<p>使用索引分析器，默认为简单。 如果你想知道为什么我们没有选择标准分析器：我们尝试在这里很容易理解的行为，如果你索引字段内容在Drive-in，你不会得到任何建议， （第一个非停用词）</p>
+<p><strong>search_analyzer</strong></p>
+<p>要使用的搜索分析器，默认为分析器的值。</p>
+<p><strong>preserve_separators</strong></p>
+<p>保留分隔符，默认为true。 如果禁用，你可以找到一个以Foo Fighters开头的字段，如果你推荐foof。</p>
+<p><strong>preserve_position_increments</strong></p>
+<p>启用位置增量，默认为true。 如果禁用和使用停用分析器，您可以得到一个字段从披头士开始，如果你 suggest b。 注意：你也可以通过索引两个输入，Beatles和披头士，不需要改变一个简单的分析器，如果你能够丰富你的数据。</p>
+<p><strong>max_input_length</strong></p>
+<p>限制单个输入的长度，默认为50个UTF-16代码点。 此限制仅在索引时使用，以减少每个输入字符串的字符总数，以防止大量输入膨胀底层数据结构。 大多数用例不会受默认值的影响，因为前缀完成很少超过前缀长度超过少数几个字符。</p>
+<p><strong>索引</strong></p>
+<p>您像任何其他字段一样索引 <strong>suggestion</strong> 。 <strong>suggestion</strong> 由输入和可选的权重属性组成。 输入是要由 <strong>suggestion</strong> 查询匹配的期望文本，并且权重确定如何对 <strong>suggestion</strong> 进行评分。 索引 <strong>suggestion</strong> 如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">PUT music/song/1?refresh</span><br><span class="line">&#123;</span><br><span class="line">    &quot;suggest&quot; : &#123;</span><br><span class="line">        &quot;input&quot;: [ &quot;Nevermind&quot;, &quot;Nirvana&quot; ],</span><br><span class="line">        &quot;weight&quot; : 34</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以下参数被支持：</p>
+<p><strong>input</strong></p>
+<p>输入存储，这可以是字符串数组或只是一个字符串。 此字段是必填字段。</p>
+<p><strong>weight</strong></p>
+<p>正整数或包含正整数的字符串，用于定义权重并允许对 <strong>suggestions</strong> 进行排名。 此字段是可选的。</p>
+<p><strong>查询</strong></p>
+<p><strong>suggest</strong> 像往常一样工作，除了您必须指定 <strong>suggest</strong> 类型为完成。 <strong>suggestions</strong> 接近实时，这意味着可以通过刷新显示新 <strong>suggestions</strong> ，并且一旦删除就不会显示文档。 此请求：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">POST music/_suggest?pretty</span><br><span class="line">&#123;</span><br><span class="line">    &quot;song-suggest&quot; : &#123;</span><br><span class="line">        &quot;prefix&quot; : &quot;nir&quot;,</span><br><span class="line">        &quot;completion&quot; : &#123;</span><br><span class="line">            &quot;field&quot; : &quot;suggest&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>返回这个响应：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;_shards&quot; : &#123;</span><br><span class="line">    &quot;total&quot; : 5,</span><br><span class="line">    &quot;successful&quot; : 5,</span><br><span class="line">    &quot;failed&quot; : 0</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;song-suggest&quot; : [ &#123;</span><br><span class="line">    &quot;text&quot; : &quot;nir&quot;,</span><br><span class="line">    &quot;offset&quot; : 0,</span><br><span class="line">    &quot;length&quot; : 3,</span><br><span class="line">    &quot;options&quot; : [ &#123;</span><br><span class="line">      &quot;text&quot; : &quot;Nirvana&quot;,</span><br><span class="line">      &quot;_index&quot;: &quot;music&quot;,</span><br><span class="line">      &quot;_type&quot;: &quot;song&quot;,</span><br><span class="line">      &quot;_id&quot;: &quot;1&quot;,</span><br><span class="line">      &quot;_score&quot;: 1.0,</span><br><span class="line">      &quot;_source&quot;: &#123;</span><br><span class="line">        &quot;suggest&quot;: [&quot;Nevermind&quot;, &quot;Nirvana&quot;]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; ]</span><br><span class="line">  &#125; ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>模糊查询</strong></p>
+<p>完成 <strong>suggester</strong> 还支持模糊查询 - 这意味着，您可以在搜索中输入错误，并仍然返回结果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">POST music/_suggest?pretty</span><br><span class="line">&#123;</span><br><span class="line">    &quot;song-suggest&quot; : &#123;</span><br><span class="line">        &quot;prefix&quot; : &quot;nor&quot;,</span><br><span class="line">        &quot;completion&quot; : &#123;</span><br><span class="line">            &quot;field&quot; : &quot;suggest&quot;,</span><br><span class="line">            &quot;fuzzy&quot; : &#123;</span><br><span class="line">                &quot;fuzziness&quot; : 2</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>与查询前缀共享最长前缀的 <strong>suggestion</strong> 将得分更高。</p>
+<p>模糊查询可以采用特定的模糊参数。 支持以下参数：</p>
+<p>| <strong>fuzziness</strong> | 模糊系数，默认为AUTO。 有关允许的设置，请参阅 <a href="http://www.apache.wiki/pages/viewpage.action?pageId=4882851" target="_blank" rel="noopener">“Fuzzinessedit”一节</a>。 | | <strong>transpositions</strong> | 如果设置为true，则换位计数为一个更改而不是两个，默认为true | | <strong>min_length</strong> | 返回模糊 <strong>suggestions</strong> 前的输入的最小长度，默认值3 | | <strong>prefix_length</strong> | 输入的最小长度（未针对模糊替代项进行检查）默认为1 | | <strong>unicode_aware</strong> | 如果为true，则所有度量（如模糊编辑距离，置换和长度）都以Unicode代码点而不是字节为单位。 这比原始字节稍慢，因此默认情况下设置为false。 |</p>
+<p>如果你想坚持使用默认值，但仍然使用模糊，你可以使用 fuzzy：{}或fuzzy：true。</p>
+<h2 id="Explan-api"><a href="#Explan-api" class="headerlink" title="Explan api"></a>Explan api</h2><p><strong>Explain API</strong> 计算查询和特定文档的分数说明。 这可以提供有用的反馈，无论文档是否匹配特定查询。</p>
+<p>index 和 type 参数分别期望单个索引和单个类型。</p>
+<h3 id="用法"><a href="#用法" class="headerlink" title="用法"></a><a href="https://elasticsearch.apachecn.org/#/docs/130?id=%e7%94%a8%e6%b3%95" target="_blank" rel="noopener">用法</a></h3><p>完整查询示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">GET /twitter/tweet/0/_explain</span><br><span class="line">&#123;</span><br><span class="line">      &quot;query&quot; : &#123;</span><br><span class="line">        &quot;match&quot; : &#123; &quot;message&quot; : &quot;elasticsearch&quot; &#125;</span><br><span class="line">      &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这将产生以下结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;_index&quot; : &quot;twitter&quot;,</span><br><span class="line">  &quot;_type&quot; : &quot;tweet&quot;,</span><br><span class="line">  &quot;_id&quot; : &quot;0&quot;,</span><br><span class="line">  &quot;matched&quot; : true,</span><br><span class="line">  &quot;explanation&quot; : &#123;</span><br><span class="line">    &quot;value&quot; : 1.55077,</span><br><span class="line">    &quot;description&quot; : &quot;sum of:&quot;,</span><br><span class="line">    &quot;details&quot; : [ &#123;</span><br><span class="line">      &quot;value&quot; : 1.55077,</span><br><span class="line">      &quot;description&quot; : &quot;weight(message:elasticsearch in 0) [PerFieldSimilarity], result of:&quot;,</span><br><span class="line">      &quot;details&quot; : [ &#123;</span><br><span class="line">        &quot;value&quot; : 1.55077,</span><br><span class="line">        &quot;description&quot; : &quot;score(doc=0,freq=1.0 = termFreq=1.0\n), product of:&quot;,</span><br><span class="line">        &quot;details&quot; : [ &#123;</span><br><span class="line">          &quot;value&quot; : 1.3862944,</span><br><span class="line">          &quot;description&quot; : &quot;idf(docFreq=1, docCount=5)&quot;,</span><br><span class="line">          &quot;details&quot; : [ ]</span><br><span class="line">        &#125;, &#123;</span><br><span class="line">          &quot;value&quot; : 1.1186441,</span><br><span class="line">          &quot;description&quot; : &quot;tfNorm, computed from:&quot;,</span><br><span class="line">          &quot;details&quot; : [</span><br><span class="line">            &#123; &quot;value&quot; : 1.0, &quot;description&quot; : &quot;termFreq=1.0&quot;, &quot;details&quot; : [ ] &#125;,</span><br><span class="line">            &#123; &quot;value&quot; : 1.2, &quot;description&quot; : &quot;parameter k1&quot;, &quot;details&quot; : [ ] &#125;,</span><br><span class="line">            &#123; &quot;value&quot; : 0.75, &quot;description&quot; : &quot;parameter b&quot;, &quot;details&quot; : [ ] &#125;,</span><br><span class="line">            &#123; &quot;value&quot; : 5.4, &quot;description&quot; : &quot;avgFieldLength&quot;, &quot;details&quot; : [ ] &#125;,</span><br><span class="line">            &#123; &quot;value&quot; : 4.0, &quot;description&quot; : &quot;fieldLength&quot;, &quot;details&quot; : [ ] &#125;</span><br><span class="line">          ]</span><br><span class="line">        &#125; ]</span><br><span class="line">      &#125; ]</span><br><span class="line">    &#125;, &#123;</span><br><span class="line">      &quot;value&quot; : 0.0,</span><br><span class="line">      &quot;description&quot; : &quot;match on required clause, product of:&quot;,</span><br><span class="line">      &quot;details&quot; : [ &#123;</span><br><span class="line">        &quot;value&quot; : 0.0,</span><br><span class="line">        &quot;description&quot; : &quot;# clause&quot;,</span><br><span class="line">        &quot;details&quot; : [ ]</span><br><span class="line">      &#125;, &#123;</span><br><span class="line">        &quot;value&quot; : 1.0,</span><br><span class="line">        &quot;description&quot; : &quot;_type:tweet, product of:&quot;,</span><br><span class="line">        &quot;details&quot; : [</span><br><span class="line">          &#123; &quot;value&quot; : 1.0, &quot;description&quot; : &quot;boost&quot;, &quot;details&quot; : [ ] &#125;,</span><br><span class="line">          &#123; &quot;value&quot; : 1.0, &quot;description&quot; : &quot;queryNorm&quot;, &quot;details&quot; : [ ] &#125;</span><br><span class="line">        ]</span><br><span class="line">      &#125; ]</span><br><span class="line">    &#125; ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>还有一种更简单的通过 q 参数指定查询的方法。 然后解析指定的 q 参数值，就像使用 query_string 查询一样。 在api中的 q 参数的用法示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET /twitter/tweet/0/_explain?q=message:search</span><br></pre></td></tr></table></figure>
+
+<p>这将产生与先前请求相同的结果。</p>
+<p><a href="https://elasticsearch.apachecn.org/" target="_blank" rel="noopener">参考资料</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:</strong>
+    辣椒の酱
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link:</strong>
+    <a href="https://removeif.github.io/java/elasticsearch/Elasticsearch常用工具api.html" title="Elasticsearch常用工具api">https://removeif.github.io/java/elasticsearch/Elasticsearch常用工具api.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice: </strong>
+    All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> unless stating additionally.
+  </li>
+  <li class="post-copyright-license">
+      <strong>文章评论：</strong>
+      <a href="https://removeif.github.io/java/elasticsearch/Elasticsearch常用工具api.html#comment-container">点击评论</a>
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/remove.io/tags/elasticsearch6/" rel="tag"># elasticsearch6</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/remove.io/design-architecture/restful-api-设计以及幂等性相关设计.html" rel="next" title="restful api 设计以及幂等性相关设计">
+                <i class="fa fa-chevron-left"></i> restful api 设计以及幂等性相关设计
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/remove.io/java/basic/Java版常用正则表达式说明.html" rel="prev" title="Java版常用正则表达式说明">
+                Java版常用正则表达式说明 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://cdn.jsdelivr.net/gh/removeif/removeif.github.io@master/images/tuzi.jpg" alt="辣椒の酱">
+            
+              <p class="site-author-name" itemprop="name">辣椒の酱</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/remove.io/archives/">
+              
+                  <span class="site-state-item-count">117</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/remove.io/categories/index.html">
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/remove.io/tags/index.html">
+                  <span class="site-state-item-count">84</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/remove.io/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Document-APIS"><span class="nav-number">1.</span> <span class="nav-text">Document APIS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#index-api"><span class="nav-number">1.1.</span> <span class="nav-text">index api</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#get-api"><span class="nav-number">1.2.</span> <span class="nav-text">get api</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#update-api"><span class="nav-number">1.3.</span> <span class="nav-text">update api</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通过查询api更新"><span class="nav-number">1.4.</span> <span class="nav-text">通过查询api更新</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bulk-api"><span class="nav-number">1.5.</span> <span class="nav-text">bulk api</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#delete-api"><span class="nav-number">1.6.</span> <span class="nav-text">delete api</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#delete-by-query-api"><span class="nav-number">1.7.</span> <span class="nav-text">delete by query api</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#term-vectors"><span class="nav-number">1.8.</span> <span class="nav-text">term vectors</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#search"><span class="nav-number">2.</span> <span class="nav-text">search</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#query-api"><span class="nav-number">2.1.</span> <span class="nav-text">query api</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sort"><span class="nav-number">2.2.</span> <span class="nav-text">sort</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#highlighting"><span class="nav-number">2.3.</span> <span class="nav-text">highlighting</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#search-type"><span class="nav-number">2.4.</span> <span class="nav-text">search type</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#scroll-游标-多数据深度分页问题解决"><span class="nav-number">2.5.</span> <span class="nav-text">scroll 游标(多数据深度分页问题解决)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#explan"><span class="nav-number">2.6.</span> <span class="nav-text">explan</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#suggesters-共有四种方式"><span class="nav-number">3.</span> <span class="nav-text">suggesters (共有四种方式)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#completion-suggester"><span class="nav-number">3.1.</span> <span class="nav-text">completion suggester</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Explan-api"><span class="nav-number">4.</span> <span class="nav-text">Explan api</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#用法"><span class="nav-number">4.1.</span> <span class="nav-text">用法</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">辣椒の酱</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/remove.io/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/remove.io/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/remove.io/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/remove.io/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/remove.io/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/remove.io/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/remove.io/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/remove.io/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/remove.io/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/remove.io/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/remove.io/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/remove.io/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/remove.io/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
